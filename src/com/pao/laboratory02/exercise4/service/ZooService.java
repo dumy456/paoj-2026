@@ -66,6 +66,9 @@ public class ZooService {
      */
     public void addAnimal(Animal a) {
         // TODO: implementează aici
+        animals.add(a);
+        System.out.println("Adăugat: " + a);
+
     }
 
     /**
@@ -79,6 +82,13 @@ public class ZooService {
      */
     public void listAll() {
         // TODO: implementează aici
+        if(animals.isEmpty()){
+            System.out.println("Grădina zoologică este goală.");
+        }else{
+            for(int i=0;i<animals.size();i++){
+                System.out.println("  " + (i+1) + ". " + animals.get(i).describe());
+            }
+        }
     }
 
     /**
@@ -96,6 +106,16 @@ public class ZooService {
      */
     public void listByType(String type) {
         // TODO: implementează aici
+        Boolean found=false;
+        for(Animal animal: animals){
+            if(animal.getClass().getSimpleName().equals(type)){
+                System.out.println(animal.describe());
+                found=true;
+            }
+        }
+        if(!found){
+            System.out.println("Nu există animale de tipul: " + type);
+        }
     }
 
     /**
@@ -112,6 +132,17 @@ public class ZooService {
      */
     public void findOldest() {
         // TODO: implementează aici
+        if(animals.isEmpty()){
+            System.out.println("Grădina zoologică este goală.");
+        }else{
+            Animal oldest=animals.get(0);
+            for(int i=1;i<animals.size();i++){
+                if(animals.get(i).getAge()>oldest.getAge()){
+                    oldest=animals.get(i);
+                }
+            }
+            System.out.println("Cel mai bătrân animal: " + oldest.describe());
+        }
     }
 }
 

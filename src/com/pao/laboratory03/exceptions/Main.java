@@ -1,5 +1,6 @@
 package com.pao.laboratory03.exceptions;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Exercițiul 3 — Excepții (checked, unchecked, custom)
  *
@@ -41,8 +42,8 @@ package com.pao.laboratory03.exceptions;
  *
  * Output așteptat:
  *
- * === a) Unchecked — NullPointerException ===
- * Prins: Cannot invoke "String.length()" because "s" is null
+ * === a) Unchecked — Null PointerException ===
+ *  * Prins: Cannot invoke "String.length()"because "s" is null
  * Finally se execută mereu!
  *
  * === b) Custom exceptions ===
@@ -58,10 +59,75 @@ package com.pao.laboratory03.exceptions;
  * === e) Throw vs throws ===
  * Metoda process() a aruncat: Vârsta 999 nu este validă (0-150)
  */
-public class Main {
+public class  Main {
+    static void riskyMethod(){
+        try {
+            String s = null;
+            s.length();
+        } catch (NullPointerException e) {
+            System.out.println("Prins: " + e.getMessage());
+        } finally {
+            System.out.println("Finally se execută mereu!");
+        }
+    }
+    static void validateAge(int age){
+        if (age<0 || age>150){
+            throw new InvalidAgeException(age);
+        }else{
+            return;
+        }
+    }
+    static void addToList(List<String>list,String name){
+        if(list.contains(name)){
+            throw new DuplicateEntryException(name);
+        }else{
+            list.add(name);
+        }
+    }
+    static void process(int age) throws InvalidAgeException{
+        validateAge(age);
+    }
     public static void main(String[] args) {
         // TODO: implementează pașii de mai sus
         // Hint: creează mai întâi InvalidAgeException.java și DuplicateEntryException.java
+        System.out.println("=== a) Unchecked — NullPointerException ===");
+        riskyMethod();
+        System.out.println("=== b) Custom exceptions ===");
+        try{
+            validateAge(-5);
+        }catch(InvalidAgeException e){
+            System.out.println("InsufficientFundsException: " + e.getMessage());
+        }
+        try{
+            List<String> list= new ArrayList<>();
+            list.add("Ana");
+            addToList(list,"Ana");
+        }catch(DuplicateEntryException e){
+            System.out.println("DuplicateEntryException: "+ e.getMessage());
+        }
+        System.out.println("=== c) Multi-catch ===");
+        try{
+            validateAge(200);
+            List<String> list= new ArrayList<>();
+            list.add("Ana");
+            addToList(list,"Ana");
+        }catch(InvalidAgeException|DuplicateEntryException e){
+            System.out.println("Exceptie prinsa: "+ e.getMessage());
+        }
+        System.out.println("=== d) Catch ordering (specific → general) ===");
+        try {
+            validateAge(-1);
+        } catch (InvalidAgeException e) {
+            System.out.println("InvalidAgeException prinsa specific: " + e.getMessage());
+        } catch (RuntimeException e) {
+            System.out.println("General: " + e.getMessage());
+        }
+        System.out.println("=== e) Throw vs throws ===");
+        try{
+            process(200);
+        } catch (InvalidAgeException e) {
+            System.out.println("InsufficientFundsException: " + e.getMessage());
+        }
     }
 }
 

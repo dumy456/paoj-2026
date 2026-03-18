@@ -1,5 +1,9 @@
 package com.pao.laboratory03.bonus;
 
+import com.pao.laboratory03.bonus.model.Status;
+import com.pao.laboratory03.bonus.model.Task;
+import com.pao.laboratory03.bonus.service.TaskService;
+import com.pao.laboratory03.bonus.model.Priority;
 /**
  * Exercițiul 5 (Bonus) — Sistem de gestiune task-uri cu audit log
  *
@@ -158,6 +162,26 @@ public class Main {
         // TODO: implementează toți cei 10 pași de mai sus
         // Creează TOATE clasele necesare în acest pachet (bonus/)
         // Nu ai subpachete impuse — organizează cum consideri
+        TaskService service= TaskService.getInstance();
+        service.addTask("Fix login bug",Priority.CRITICAL);
+        service.addTask("Add dark mode",Priority.LOW);
+        service.addTask("Update docs",Priority.MEDIUM);
+        service.addTask("Fix memory leak",Priority.HIGH);
+        service.addTask("Refactor DB layer",Priority.HIGH);
+        service.assignTask("T001","Ana");
+        service.assignTask("T003","Mihai");
+        service.assignTask("T004","Elena");
+        service.changeStatus("T001", Status.IN_PROGRESS);
+        service.changeStatus("T001",Status.DONE);
+        service.changeStatus("T003",Status.IN_PROGRESS);
+//        service.changeStatus("T001",Status.TODO);
+        System.out.println(service.getTasksByPriority(Priority.HIGH));
+        System.out.println(service.getStatusSummary());
+//        System.out.println(service.getUnassignedTasks());
+        System.out.println(service.getTotalUrgencyScore(5));
+//        service.printAuditLog();
+//        service.addTask("Fix memory leak",Priority.LOW);
+//        service.assignTask("T999","Guta");
     }
 }
 
