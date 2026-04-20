@@ -14,8 +14,8 @@ Vei reutiliza clasele `Student` și `Adresa` din exercițiul 1 și vei adăuga f
 ## Import din exercițiul 1
 
 ```java
-import com.pao.laboratory08.exercise1.Student;
-import com.pao.laboratory08.exercise1.Adresa;
+
+
 ```
 
 ---
