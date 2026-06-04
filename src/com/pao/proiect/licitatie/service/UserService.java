@@ -1,36 +1,39 @@
 package com.pao.proiect.licitatie.service;
 
 import com.pao.proiect.licitatie.model.Utilizator;
-import java.util.*;
+import com.pao.proiect.licitatie.repository.UtilizatorRepository;
+import java.util.List;
 
 public class UserService {
     private static UserService instance;
-    private Set<Utilizator> utilizatori = new HashSet<>();
+    private final UtilizatorRepository userRepo = new UtilizatorRepository();
+    private final AuditService audit = AuditService.getInstance();
 
     private UserService() {}
 
-    public static UserService getInstance() {
+    public static synchronized UserService getInstance() {
         if (instance == null) instance = new UserService();
         return instance;
     }
 
     public void inregistreazaUtilizator(Utilizator u) {
-        if (u == null) {
-            System.out.println("Eroare: Încercare de înregistrare a unui utilizator nul.");
-            return;
-        }
-        utilizatori.add(u);
-        System.out.println("Utilizator înregistrat: " + u.getNume());
+        audit.logActiune("inregistreaza_utilizator");
+        userRepo.save(u);
     }
 
     public void stergeUtilizator(int id) {
-        utilizatori.removeIf(u -> u.getId() == id);
-        System.out.println("Utilizator cu ID " + id + " a fost eliminat.");
+        audit.logActiune("sterge_utilizator");
+        userRepo.delete(id);
     }
 
-    public void afiseazaUtilizatori(){
-        for(Utilizator u: utilizatori){
-            System.out.println(u.toString());
-        }
+    public boolean existaEmail(String email) {
+        audit.logActiune("verifica_email");
+        return userRepo.checkEmailExists(email);
+    }
+
+    public void afiseazaUtilizatori() {
+        audit.logActiune("listeaza_utilizatori");
+        List<Utilizator> list = userRepo.findAll();
+        list.forEach(System.out::println);
     }
 }

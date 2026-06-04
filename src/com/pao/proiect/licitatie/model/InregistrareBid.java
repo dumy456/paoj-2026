@@ -2,27 +2,28 @@ package com.pao.proiect.licitatie.model;
 
 import java.time.LocalDateTime;
 
-
 public final class InregistrareBid {
-    private final int idLicitatie;
+    private final int produsId;
+    private final int licitatorId;
     private final double suma;
     private final LocalDateTime timestamp;
 
-    public InregistrareBid(int idLicitatie, double suma) {
-        this.idLicitatie = idLicitatie;
+    public InregistrareBid(int produsId, int licitatorId, double suma) {
+        this.produsId = produsId;
+        this.licitatorId = licitatorId;
         this.suma = suma;
         this.timestamp = LocalDateTime.now();
     }
 
-    public int getIdLicitatie() {
-        return idLicitatie;
+    public InregistrareBid(int produsId, int licitatorId, double suma, LocalDateTime timestamp) {
+        this.produsId = produsId;
+        this.licitatorId = licitatorId;
+        this.suma = suma;
+        this.timestamp = timestamp;
     }
 
-    public double getSuma() {
-        return suma;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+    public int getProdusId() { return produsId; }
+    public int getLicitatorId() { return licitatorId; }
+    public double getSuma() { return suma; }
+    public LocalDateTime getTimestamp() { return timestamp; }
 }

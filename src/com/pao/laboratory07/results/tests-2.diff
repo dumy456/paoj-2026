@@ -1,0 +1,12 @@
+--- expected
++++ actual
+@@ -1,6 +1,6 @@
+-STANDARD: Monitor, pret: 300.00 lei [PLACED]
+-STANDARD: Keyboard, pret: 150.00 lei [PLACED]
+-STANDARD: Charger, pret: 50.00 lei [PLACED]
++STANDARD: Monitor, pret: .2f lei [PLACED]
++STANDARD: Keyboard, pret: .2f lei [PLACED]
++STANDARD: Charger, pret: .2f lei [PLACED]
+ 
+ Statistici:
+ STANDARD: suma = 500.00 lei, numar = 3

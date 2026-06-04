@@ -4,55 +4,43 @@ import com.pao.proiect.licitatie.model.*;
 import com.pao.proiect.licitatie.service.*;
 import com.pao.proiect.licitatie.exception.*;
 
-import java.sql.SQLOutput;
-
 public class Main {
     public static void main(String[] args) {
         LicitatieService licitatieService = LicitatieService.getInstance();
         UserService userService = UserService.getInstance();
 
-        System.out.println("--- DEMO SISTEM LICITATII ---");
-        // 1
-        Licitator l1 = new Licitator(1, "Andrei", "andrei@yahoo.com", 5000);
-        userService.inregistreazaUtilizator(l1);
-        // 2
-        Vanzator v1 = new Vanzator(2, "ElectroShop", "contact@electro.ro",3);
+        System.out.println("--- ETAPA II: PERSISTENȚĂ DB + TRANZACȚII + AUDIT ---");
+
+        Vanzator v1 = new Vanzator(0, "ElectroShop", "contact@electro.ro", 4.9);
         userService.inregistreazaUtilizator(v1);
-        // 3
-        licitatieService.adaugaProdus(new Produs(101, "iPhone 15", 4000));
-        licitatieService.adaugaProdus(new Produs(102, "Televizor 4K", 1500));
-        licitatieService.adaugaProdus(new Produs(103, "Căști Bluetooth", 200));
-        // 4
-        System.out.println("\nProduse disponibile (sortate):");
+
+        Licitator l1 = new Licitator(0, "Andrei Licitatorul", "andrei@yahoo.com", 10000.0);
+        userService.inregistreazaUtilizator(l1);
+
+        licitatieService.adaugaProdus(new Produs(0, "iPhone 15 Pro", 4500.0, v1.getId()));
+        licitatieService.adaugaProdus(new Produs(0, "Casti Bluetooth", 300.0, v1.getId()));
+
+        System.out.println("\nProduse în DB (Sortate):");
         licitatieService.afiseazaProduseSortateDupaPret();
 
-        // 5
-        System.out.println("\nCăutare ID 101: " + licitatieService.cautaProdus(101));
+        System.out.println("\nCăutare produs ID 1: " + licitatieService.cautaProdus(1));
 
-        // 6
         try {
-            licitatieService.plaseazaOferta(l1, 102, 1600);
-        } catch (OfertaInvalidaException e) { System.out.println(e.getMessage()); }
-
-        // 6(eroare)
-        try {
-            licitatieService.plaseazaOferta(l1, 101, 3000);
+            licitatieService.plaseazaOferta(l1, 1, 4800.0);
         } catch (OfertaInvalidaException e) {
-            System.out.println("Eroare capturată: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
-        // 7
-        System.out.println("Numar de oferte pt un produs(dupa id)");
-        System.out.println(licitatieService.numarOfertePerProdus(102));
-        // 8
-        System.out.println("Cea mai mare oferta pentru produs(dupa id)");
-        licitatieService.getCeaMaiMareOferta(102);
-        // 9
-        licitatieService.afiseazaIstoric();
-        //10
-        userService.stergeUtilizator(1);
-        System.out.println("Utilizatori rămași: ");
-        userService.afiseazaUtilizatori();
-        //11
-        licitatieService.afiseazaProduseAccesibile(2000);
+
+        System.out.println("\nNumăr oferte pentru produsul 1: " + licitatieService.numarOfertePerProdus(1));
+
+        licitatieService.afiseazaProduseAccesibile(1000.0);
+
+        licitatieService.afiseazaIstoricComplect();
+
+        System.out.println("\nExistă email-ul 'andrei@yahoo.com'? " + userService.existaEmail("andrei@yahoo.com"));
+
+        // userService.stergeUtilizator(l1.getId());
+
+        System.out.println("\nVerifică fișierul 'audit.csv' generat în rădăcina proiectului!");
     }
 }

@@ -1,20 +1,23 @@
 package com.pao.proiect.licitatie.model;
 
-// 2. Moștenire Nivel 1
 public class Licitator extends Utilizator {
-    private double sold;
+    private double buget;
 
-    public Licitator(int id, String nume, String email, double sold) {
+    public Licitator(int id, String nume, String email, double buget) {
         super(id, nume, email);
-        this.sold = sold;
+        this.buget = buget;
     }
 
-
-    public double getSold() {
-        return sold;
+    public double getBuget() {
+        return buget;
     }
 
-    public void retrageBani(double suma) {
-        this.sold -= suma;
+    public void setBuget(double buget) {
+        this.buget = buget;
+    }
+
+    @Override
+    public String getTip() {
+        return "LICITATOR";
     }
 }
